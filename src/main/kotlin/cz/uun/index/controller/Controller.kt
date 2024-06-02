@@ -19,9 +19,5 @@ class Controller(
     @ResponseBody
     fun getCompany(
         @RequestParam(value = "ico", required = true) ico: String,
-        @RequestParam(value = "onlySaved") onlySaved: Boolean,
-    ): CompanyInfo? {
-        val res = flowService.getByIco(ico, onlySaved)
-        return res
-    }
+    ) = flowService.getByIco(ico)
 }

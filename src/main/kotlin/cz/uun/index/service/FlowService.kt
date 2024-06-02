@@ -39,7 +39,7 @@ class FlowService(
         return getInfo(res?.ico, res?.obchodniJmeno, res?.adresa)
     }
 
-    fun getByIco(ico: String, onlySaved: Boolean): CompanyInfo? {
+    fun getByIco(ico: String): CompanyInfo? {
         val responseList = companyRepository.findByIco(ico)
         try {
             if (responseList.isNotEmpty()) {
