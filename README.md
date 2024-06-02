@@ -1,4 +1,4 @@
-# Dokumentace pro aplikaci v Kotlinu: Vyhledávání v databázi podle názvu společnosti, IČO a sídla
+# Dokumentace pro aplikaci v Kotlinu: Vyhledávání v databázi podle názvu společnosti a IČO
 
 ## 1. Úvod
 Tato aplikace umožňuje vyhledávání informací o společnostech v databázi na základě názvu společnosti, IČO (identifikační číslo organizace) a sídla. Aplikace je napsána v programovacích jazycích Java a Kotlin a používá Spring Boot pro konfiguraci a správu připojení k databázi a externímu API.
