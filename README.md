@@ -28,13 +28,26 @@ spring:
 ### 3.2. Struktura tabulky
 Aplikace předpokládá, že tabulka s informacemi o společnostech má následující strukturu:
 
-```sql
-CREATE TABLE companies (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    ico VARCHAR(20) NOT NULL,
-    address VARCHAR(255) NOT NULL
-);
+```
+package cz.uun.index.model
+
+import jakarta.persistence.*
+import java.time.OffsetTime
+
+@Entity
+@Table(name = "company")
+class Company(
+
+    @Id
+    var ico: String? = null,
+
+    var name: String? = null,
+
+    var adresa: String? = null,
+
+    var updated: OffsetTime? = null
+
+)
 ```
 
 ## 4. Implementace
