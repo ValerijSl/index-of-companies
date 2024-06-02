@@ -28,7 +28,7 @@ spring:
 ### 3.2. Struktura tabulky
 Aplikace předpokládá, že tabulka s informacemi o společnostech má následující strukturu:
 
-```
+``` sql
 package cz.uun.index.model
 
 import jakarta.persistence.*
