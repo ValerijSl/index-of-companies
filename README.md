@@ -71,18 +71,37 @@ class AresService(
 ) {
     private val webClient: WebClient = WebClient.create()
 
-    fun getCompanyByIco(ico: String) = webClient.get()
-        .uri("${apiUrlConfig.getByIcoUrl}/${ico}")
-        .retrieve()
-        .bodyToMono(CompanyInfo::class.java)
+    /**
+     * Metoda pro získání informací o společnosti podle IČO.
+     *
+     * @param ico IČO společnosti.
+     * @return Informace o společnosti.
+     */
+    fun getCompanyByIco(ico: String): CompanyInfo? {
+        val companyInfoResponse = webClient.get()
+            .uri("${apiUrlConfig.getByIcoUrl}/${ico}")
+            .retrieve()
+            .bodyToMono(CompanyInfoResponse::class.java)
+            .block()
+
+        return companyInfoResponse?.let {
+            CompanyInfo(it.ico, it.obchodniJmeno, it.sidlo["textovaAdresa"] ?: "")
+        }
+    }
 }
 
-data class CompanyInfo(
+data class CompanyInfoResponse(
     val ico: String,
     val obchodniJmeno: String,
     val sidlo: HashMap<String, String>
 )
-```
+
+data class CompanyInfo(
+    val ico: String,
+    val obchodniJmeno: String,
+    val adresa: String
+)
+
 
 ### 4.3. Hlavní třída aplikace
 Třída `IndexOfCompaniesApplication` je hlavní třídou aplikace, která inicializuje Spring Boot aplikaci:
