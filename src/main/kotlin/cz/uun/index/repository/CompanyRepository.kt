@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CompanyRepository: JpaRepository<Company, String> {
-    @Query("""select company from Company company""")
+    @Query("""select company  from Company company where company.ico = :ico""")
     fun findByIco(ico: String): List<Company>
 }
 
