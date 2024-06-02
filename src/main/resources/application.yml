@@ -1,12 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=uun_index_companies
-    password: 123
-    username: ondrejbruha
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=postgres
+    password: <postgres>
+    username: postgres
   application:
     name: index-of-companies
   api-url:
     get-by-ico-url: https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty
+    find-by-name-url: https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat
   jpa:
     show-sql: true
     open-in-view: true

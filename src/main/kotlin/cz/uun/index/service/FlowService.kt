@@ -38,8 +38,18 @@ class FlowService(
         companyRepository.save(getEntity(res?.ico, res?.obchodniJmeno, res?.adresa))
         return getInfo(res?.ico, res?.obchodniJmeno, res?.adresa)
     }
+    fun isValidIco(ico: String): Boolean {
+        if (ico.length < 2 || ico.length > 15) {
+            return false
+        }
+        if (!ico.all { it.isDigit() }) {
+            return false
+        }
 
+        return true
+    }
     fun getByIco(ico: String): CompanyInfo? {
+        if (!isValidIco(ico)) return null
         val responseList = companyRepository.findByIco(ico)
         try {
             if (responseList.isNotEmpty()) {
@@ -53,5 +63,8 @@ class FlowService(
         } catch (e: Exception) {
             throw ResourceNotFoundException()
         }
+    }
+    fun findByName(name: String): List<CompanyInfo>  {
+        return aresService.postCompanyByName( "Divadlo");
     }
 }

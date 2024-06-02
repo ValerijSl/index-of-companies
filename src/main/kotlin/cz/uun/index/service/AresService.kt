@@ -5,6 +5,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Service
 @EnableConfigurationProperties(ApiUrlConfig::class)
@@ -22,23 +24,28 @@ class AresService(
         }
         .block()
 
-    fun postCompanyByName(name: String, address: String, count: Int = 100): CompanyInfo? {
-        return webClient.post()
-                .uri(apiUrlConfig.getByIcoUrl) // Confirm this URL is correct for your POST request
+    fun postCompanyByName(name: String, count: Int = 100): List<CompanyInfo> {
+        val response = webClient.post()
+                .uri(apiUrlConfig.findByNameUrl) // Ensure this is the correct URL for POST
                 .body(BodyInserters.fromValue(mapOf(
                         "pocet" to count,
                         "obchodniJmeno" to name,
-                        "sidlo" to mapOf("textovaAdresa" to address)
+                        // Assuming you don't need the "sidlo" field as it's not provided in the use-case
                 )))
                 .retrieve()
-                .bodyToMono(CompanyInfoResponse::class.java)
-                .mapNotNull {
-                    it.sidlo["textovaAdresa"]?.let { addr ->
-                        CompanyInfo(it.ico, it.obchodniJmeno, addr)
-                    }
-                }
-                .block()
+                .bodyToMono(CompanyInfoResponseWrapper::class.java) // Assuming this class wraps the list of companies
+                .block()  // This will wait for the data to be available and block the thread
+
+        // Transform the fetched data into a List<CompanyInfo>
+        return response?.ekonomickeSubjekty?.map { entity ->
+            CompanyInfo(
+                    ico = entity.ico,
+                    obchodniJmeno = entity.obchodniJmeno,
+                    adresa = entity.sidlo["textovaAdresa"] ?: "Not provided"
+            )
+        } ?: emptyList() // Return an empty list if null
     }
+
 }
 
 data class CompanyInfoResponse(
@@ -51,4 +58,9 @@ data class CompanyInfo(
     val ico: String,
     val obchodniJmeno: String,
     val adresa: String
+)
+
+data class CompanyInfoResponseWrapper(
+        val pocetCelkem: Int,
+        val ekonomickeSubjekty: List<CompanyInfoResponse>
 )
