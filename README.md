@@ -54,6 +54,38 @@ class ApiUrlConfig(
 ```
 
 ### 4.2. Třída AresService
+Třída `AresService` slouží k vyhledávání informací o společnosti pomocí externího ARES API.
+
+#### Logika volání ARES API
+ARES API je voláno pomocí HTTP GET požadavku na konkrétní endpoint, který obsahuje název společnosti jako parametr. Odpověď na požadavek je zpracována a následně transformována do formátu `CompanyInfo`, který obsahuje informace o společnosti.
+
+#### Endpointy
+- **GET /api/v1/company** - Endpoint pro získání informací o společnosti.
+  
+  **Parametry:**
+  - `name` (string, povinný) - Název společnosti nebo klíčová slova pro vyhledávání.
+  
+  **Vstup:**
+  - `name` - Název společnosti nebo klíčová slova pro vyhledávání.
+  
+  **Výstup:**
+  - `CompanyInfo` - Objekt obsahující informace o společnosti, včetně IČO, obchodního jména a adresy.
+  
+#### Popisy funkcí
+- **`getCompanyByName(name: String): CompanyInfo?`**
+  
+  Metoda pro získání informací o společnosti podle názvu.
+  
+  **Parametry:**
+  - `name` (string) - Název společnosti nebo klíčová slova pro vyhledávání.
+  
+  **Návratová hodnota:**
+  - `CompanyInfo` - Objekt obsahující informace o společnosti (IČO, obchodní jméno, adresa).
+  - `null`, pokud se nepodařilo získat informace.
+
+#### Obchodní logika
+ARES API slouží jako zdroj informací o společnostech, které jsou poté využity ve vaší aplikaci. Vyhledávání informací o společnostech podle názvu umožňuje aplikaci získat relevantní data na základě klíčových slov, která mohou být dále zpracována nebo zobrazena uživateli aplikace. Tímto způsobem může aplikace poskytovat užitečné informace o společnostech, které mohou být důležité pro uživatele aplikace.
+
 Třída `AresService` slouží k vyhledávání informací o společnosti pomocí externího API:
 
 ```kotlin
