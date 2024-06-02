@@ -134,9 +134,8 @@ data class CompanyInfo(
     val obchodniJmeno: String,
     val adresa: String
 )
+```
 
-
-##
 ### 4.3. Hlavní třída aplikace
 Třída `IndexOfCompaniesApplication` je hlavní třídou aplikace, která inicializuje Spring Boot aplikaci:
 
