@@ -15,11 +15,21 @@ class AresService(
     fun getCompanyByIco(ico: String) = webClient.get()
         .uri("${apiUrlConfig.getByIcoUrl}/${ico}")
         .retrieve()
-        .bodyToMono(CompanyInfo::class.java)
+        .bodyToMono(CompanyInfoResponse::class.java)
+        .mapNotNull {
+            it.sidlo.get("textovaAdresa")?.let { it1 -> CompanyInfo(it.ico, it.obchodniJmeno, it1) }
+        }
+        .block()
 }
+
+data class CompanyInfoResponse(
+    val ico: String,
+    val obchodniJmeno: String,
+    val sidlo: HashMap<String, String>
+)
 
 data class CompanyInfo(
     val ico: String,
     val obchodniJmeno: String,
-    val sidlo: HashMap<String, String>
+    val adresa: String
 )
