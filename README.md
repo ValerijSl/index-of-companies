@@ -57,34 +57,35 @@ class ApiUrlConfig(
 Třída `AresService` slouží k vyhledávání informací o společnosti pomocí externího ARES API.
 
 #### Logika volání ARES API
-ARES API je voláno pomocí HTTP GET požadavku na konkrétní endpoint, který obsahuje název společnosti jako parametr. Odpověď na požadavek je zpracována a následně transformována do formátu `CompanyInfo`, který obsahuje informace o společnosti.
+ARES API je voláno pomocí HTTP GET požadavku na konkrétní endpoint, který obsahuje parametr pro vyhledávání společnosti podle názvu společnosti nebo IČO. Odpověď na požadavek je zpracována a následně transformována do formátu `CompanyInfo`, který obsahuje informace o společnosti.
 
 #### Endpointy
 - **GET /api/v1/company** - Endpoint pro získání informací o společnosti.
   
   **Parametry:**
-  - `name` (string, povinný) - Název společnosti nebo klíčová slova pro vyhledávání.
+  - `search` (string, povinný) - Název společnosti nebo IČO společnosti.
   
   **Vstup:**
-  - `name` - Název společnosti nebo klíčová slova pro vyhledávání.
+  - `search` - Název společnosti nebo IČO společnosti, podle kterého se vyhledávají informace.
   
   **Výstup:**
   - `CompanyInfo` - Objekt obsahující informace o společnosti, včetně IČO, obchodního jména a adresy.
   
 #### Popisy funkcí
-- **`getCompanyByName(name: String): CompanyInfo?`**
+- **`getCompanyBySearch(search: String): CompanyInfo?`**
   
-  Metoda pro získání informací o společnosti podle názvu.
+  Metoda pro získání informací o společnosti podle názvu společnosti nebo IČO.
   
   **Parametry:**
-  - `name` (string) - Název společnosti nebo klíčová slova pro vyhledávání.
+  - `search` (string) - Název společnosti nebo IČO společnosti.
   
   **Návratová hodnota:**
   - `CompanyInfo` - Objekt obsahující informace o společnosti (IČO, obchodní jméno, adresa).
   - `null`, pokud se nepodařilo získat informace.
 
 #### Obchodní logika
-ARES API slouží jako zdroj informací o společnostech, které jsou poté využity ve vaší aplikaci. Vyhledávání informací o společnostech podle názvu umožňuje aplikaci získat relevantní data na základě klíčových slov, která mohou být dále zpracována nebo zobrazena uživateli aplikace. Tímto způsobem může aplikace poskytovat užitečné informace o společnostech, které mohou být důležité pro uživatele aplikace.
+ARES API slouží jako zdroj informací o společnostech, které jsou poté využity v  aplikaci. Možnost vyhledávat společnosti podle názvu společnosti nebo IČO umožňuje aplikaci poskytovat užitečné informace o společnostech na základě různých kritérií, což může být důležité pro uživatele aplikace.
+
 
 Třída `AresService` slouží k vyhledávání informací o společnosti pomocí externího API:
 
