@@ -30,6 +30,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.postgresql:postgresql")
     implementation("io.netty:netty-all")
+    testImplementation("com.h2database:h2")
+
 }
 
 tasks.withType<KotlinCompile> {
