@@ -29,12 +29,12 @@ class FlowService(
     fun getByIco(ico: String, onlySaved: Boolean): CompanyInfo? {
         val responseList = companyRepository.findByIco(ico)
         var response: Company? = null
-        if (responseList.isNotEmpty()) {
-            response = responseList[0]
-        } else {
-            throw ResourceNotFoundException()
-        }
         return if (onlySaved) {
+            if (responseList.isNotEmpty()) {
+                response = responseList[0]
+            } else {
+                throw ResourceNotFoundException()
+            }
             getInfo(response?.ico, response?.name, response?.adresa)
         } else {
             try {
