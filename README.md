@@ -17,8 +17,8 @@ Před spuštěním aplikace je nutné nakonfigurovat připojení k databázi pom
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=uun_index_companies
-    password: 123
-    username: ondrejbruha
+    password: ********
+    username: ********
   application:
     name: index-of-companies
   api-url:
