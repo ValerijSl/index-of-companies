@@ -3,9 +3,8 @@ package cz.uun.index.service
 import cz.uun.index.model.Company
 import cz.uun.index.repository.CompanyRepository
 import cz.uun.index.response.ResourceNotFoundException
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import java.time.OffsetTime
+import java.time.OffsetDateTime
 
 
 @Service
@@ -23,28 +22,32 @@ class FlowService(
         ico = ico ?: "",
         name = name ?: "",
         adresa = adresa ?: "",
-        updated = OffsetTime.now(),
+        updated = OffsetDateTime.now(),
     )
+
+    private fun handleDBResponse(responseList: List<Company>): Company {
+        if (responseList.isNotEmpty()) {
+            return responseList[0]
+        } else {
+            throw ResourceNotFoundException()
+        }
+    }
+
+    private fun getFromAres(ico: String): CompanyInfo {
+        val res = aresService.getCompanyByIco(ico)
+        companyRepository.save(getEntity(res?.ico, res?.obchodniJmeno, res?.adresa))
+        return getInfo(res?.ico, res?.obchodniJmeno, res?.adresa)
+    }
 
     fun getByIco(ico: String, onlySaved: Boolean): CompanyInfo? {
         val responseList = companyRepository.findByIco(ico)
-        var response: Company? = null
-        return if (onlySaved) {
-            if (responseList.isNotEmpty()) {
-                response = responseList[0]
-            } else {
-                throw ResourceNotFoundException()
+        if (responseList.isNotEmpty()) {
+            if (responseList[0].updated!! < OffsetDateTime.now().minusHours(1)) {
+                return getFromAres(ico)
             }
-            getInfo(response?.ico, response?.name, response?.adresa)
+            return getInfo(responseList[0].ico, responseList[0].name, responseList[0].adresa)
         } else {
-            try {
-                val res = aresService.getCompanyByIco(ico)
-                companyRepository.save(getEntity(res?.ico, res?.obchodniJmeno, res?.adresa))
-                return res
-            } catch (e: Exception) {
-                throw ResourceNotFoundException()
-            }
+            return getFromAres(ico)
         }
-
     }
 }

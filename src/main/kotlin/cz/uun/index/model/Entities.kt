@@ -1,7 +1,8 @@
 package cz.uun.index.model
 
 import jakarta.persistence.*
-import java.time.OffsetTime
+import org.hibernate.annotations.CreationTimestamp
+import java.time.OffsetDateTime
 
 @Entity
 @Table(name = "company")
@@ -14,6 +15,7 @@ class Company(
 
     var adresa: String? = null,
 
-    var updated: OffsetTime? = null
+    @CreationTimestamp
+    var updated: OffsetDateTime? = null
 
 )
