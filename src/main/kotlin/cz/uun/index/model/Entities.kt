@@ -1,10 +1,19 @@
 package cz.uun.index.model
 
 import jakarta.persistence.*
+import java.time.OffsetTime
 
 @Entity
 @Table(name = "company")
-class Company {
+class Company(
+
     @Id
-    val id: Long? = null
-}
+    var ico: String? = null,
+
+    var name: String? = null,
+
+    var adresa: String? = null,
+
+    var updated: OffsetTime? = null
+
+)
